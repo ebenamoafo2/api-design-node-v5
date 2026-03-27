@@ -1,4 +1,15 @@
 import { Router } from 'express'
+import { validateBody, validateParams } from '../middleware/validation.ts'
+import { z } from 'zod'
+
+// a placeholder schema for habit creation, will be expanded with more fields as needed
+const createHabitSchema = z.object({
+  name: z.string(),
+})
+
+const completeParamsSchema = z.object({
+  id: z.string(),
+})
 
 const router = Router()
 
@@ -12,21 +23,26 @@ router.get('/:id', (req, res) => {
   res.status(200).json({ message: `Details of habit with id ${req.params.id}` })
 })
 
-router.post('/', (req, res) => {
+router.post('/', validateBody(createHabitSchema), (req, res) => {
   // Placeholder for habit creation logic
   res.status(201).json({
     message: 'Habit created successfully',
   })
 })
 
-router.put('/:id', (req, res) => {
-  // Placeholder for habit update logic
-  res.status(200).json({
-    message: `Habit with id ${req.params.id} updated successfully`,
-  })
-})
+router.post(
+  '/:id/complete',
+  validateParams(completeParamsSchema),
+  validateBody(createHabitSchema),
+  (req, res) => {
+    // Placeholder for habit update logic
+    res.status(200).json({
+      message: `Habit with id ${req.params.id} updated successfully`,
+    })
+  },
+)
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateParams(completeParamsSchema), (req, res) => {
   // Placeholder for habit deletion logic
   res.status(200).json({
     message: `Habit with id ${req.params.id} deleted successfully`,
