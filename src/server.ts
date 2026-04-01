@@ -6,7 +6,6 @@ import { router as habitRoutes } from './routes/habitRoutes.ts'
 import cors from 'cors'
 import morgan from 'morgan'
 import helmet from 'helmet'
-import { is } from 'drizzle-orm'
 
 // Create Express application
 const app = express()
