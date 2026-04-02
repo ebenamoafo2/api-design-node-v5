@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { validateBody, validateParams } from '../middleware/validation.ts'
 import { z } from 'zod'
+import { authenticateToken } from '../middleware/auth.ts'
 
 // a placeholder schema for habit creation, will be expanded with more fields as needed
 const createHabitSchema = z.object({
@@ -12,6 +13,8 @@ const completeParamsSchema = z.object({
 })
 
 const router = Router()
+
+router.use(authenticateToken) // Apply authentication middleware to all habit routes
 
 router.get('/', (req, res) => {
   // Placeholder for fetching habits logic
